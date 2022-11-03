@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "333731216676",
+    "project_id": "crypto-c3ce4",
+    "storage_bucket": "crypto-c3ce4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333731216676:android:f0ef21578acca4ad1647b1",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "333731216676-hdguq1ls12r3918c330s12186rk0f1sn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBayM3PecpWaVLfydIEGPHHpe3qzbXc2ac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "333731216676-hdguq1ls12r3918c330s12186rk0f1sn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
