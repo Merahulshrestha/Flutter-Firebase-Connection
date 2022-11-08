@@ -1,104 +1,53 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_1/loginView.dart';
+import 'package:flutter_application_1/registerview.dart';
+import 'package:flutter_application_1/verifyemailview.dart';
 import 'firebase_options.dart';
+
 void main() {
   // Enabling widget binding before Firebase.initializeApp
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(MaterialApp(
+    home: const HomePage(),
+    routes: {
+      '/login/': (context) => const LoginView(),
+      '/register/': (context) => const RegisterView(),
+    },
+  ));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late final TextEditingController _email;
-  late final TextEditingController _password;
-
-  //  Flutter creates InIt state automatically when it creates your homepage
-  @override
-  void initState() {
-    // TODO: implement initState
-     _email = TextEditingController();
-     _password = TextEditingController();
-     super.initState();
-  }
-  @override  
-  void dispose (){
-    _email.dispose();
-    _password.dispose();
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+// Function of this page is to initialize firebase only once, ( not in both register and log in view)
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-      appBar: AppBar(
-        title: const Text('Register')
-      ),
-      body: FutureBuilder(
-        // FutureBuilder = HomePage can initializeApp using a FutureBuilder
+    return FutureBuilder(
+        future: Firebase.initializeApp(
+            options: DefaultFirebaseOptions.currentPlatform),
         builder: (context, snapshot) {
-          switch (snapshot.connectionState){
-            
-            case ConnectionState.none:
-              return Column(
-            children: [
-              TextField(
-                 controller: _email,
-                 enableSuggestions: false,
-                 autocorrect: false,
-                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  hintText: 'Enter Your Email',
-                ),
-              ),
-              TextField(
-                  controller: _password,
-                  obscureText: true,
-                  autocorrect: false,
-                  enableSuggestions: false,
-                decoration:  const InputDecoration(
-                  hintText: 'Enter your password',
-                ),
-              ),
-              TextButton(
-                onPressed:() async{ 
-                  // Firebase needs initialization before other calls to Firebase
-                  await Firebase.initializeApp(
-                    options: DefaultFirebaseOptions.currentPlatform,
-                  );
-                  final email = _email.text;
-                  final password = _password.text;
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                    email: email, 
-                    password: password
-                    
-                    );
-                },
-               child: const Text('Register'),
-              ),
-            ],
-          );
-              defult: const Text('Loading....');
-           
-            case ConnectionState.waiting:
-              // TODO: Handle this case.
-              break;
-            case ConnectionState.active:
-              // TODO: Handle this case.
-              break;
+          switch (snapshot.connectionState) {
             case ConnectionState.done:
-              // TODO: Handle this case.
-              break;
+              final user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                if (user.emailVerified) {
+                  print('Verified User');
+                } else {
+                  print('Verfy your email');
+                  return const VerifyEmailView();
+                }
+              } else {
+                return const VerifyEmailView();
+              }
+
+              return const LoginView();
+            // if connection is done print done
+            // builde expects return
+            default:
+              return const CircularProgressIndicator();
+            // if connection is not done, return loading
           }
-          
-        }
-      ),
-    )
-    );
+        });
   }
 }
