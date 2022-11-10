@@ -60,18 +60,23 @@ class _LoginViewState extends State<LoginView> {
             onPressed: () async {
               final email = _email.text;
               final password = _password.text;
+              
               try {
-                final user = await FirebaseAuth.instance
+                await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, 
+                password: password);
+                final user = FirebaseAuth.instance
                     .currentUser;
                     // here is if else condition
                     // we are checking if email is verified or not
                     if(user?.emailVerified ?? false){
                       // Navigating from login to notes view
+                        // ignore: use_build_context_synchronously
                         Navigator.of(context).pushNamedAndRemoveUntil(
                           notesRoute,
                           (route) => false); 
                     } else {
                       // Navigating from login to notes view
+                        // ignore: use_build_context_synchronously
                         Navigator.of(context).pushNamedAndRemoveUntil(
                           verifyEmailRoute,
                           (route) => false); 

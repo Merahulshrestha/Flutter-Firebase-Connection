@@ -29,6 +29,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: Firebase.initializeApp(
+          
             options: DefaultFirebaseOptions.currentPlatform),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
