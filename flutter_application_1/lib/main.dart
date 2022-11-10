@@ -2,18 +2,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/loginView.dart';
+import 'package:flutter_application_1/notesview.dart';
 import 'package:flutter_application_1/registerview.dart';
+import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/verifyemailview.dart';
 import 'firebase_options.dart';
-
+import 'dart:developer' as devtools show log; // to use log tools
 void main() {
   // Enabling widget binding before Firebase.initializeApp
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
     home: const HomePage(),
     routes: {
-      '/login/': (context) => const LoginView(),
-      '/register/': (context) => const RegisterView(),
+      loginRoute: (context) => const LoginView(),
+      registerRoute: (context) => const RegisterView(),
+      notesRoute: (context) => const NotesView(),
+      verifyEmailRoute: (context) => const VerifyEmailView(),
     },
   ));
 }
